@@ -14,6 +14,7 @@ def cmd_start(message):
 
 @bot.message_handler(commands=['help'])
 def cmd_help(message):
+    bot.send_message(message.chat.id, 'Привет! Чтобы получить информацию о наборе данных, нажми /dataset_info. Чтобы получить описание моделей, выбери /models_info.')
 
 
 
