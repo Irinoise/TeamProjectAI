@@ -1,4 +1,3 @@
-import requests
 import telebot
 from telebot import types
 
@@ -25,5 +24,21 @@ def cmd_models_info(message):
     mlp_button = types.KeyboardButton("Многослойный перцептрон")
     user_markup.row(lr_button, rf_button, mlp_button)
     bot.send_message(message.chat.id, "Выберите интересующую модель", reply_markup=user_markup)
+
+def cmd_models_info_link(message):
+    if message.text == "Линейная регрессия":
+        return 'https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LinearRegression.html'
+    elif message.text == "Случайный лес":
+        return 'https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.RandomForestClassifier.html'
+    elif message.text == "Многослойный перцептрон":
+         return 'https://scikit-learn.org/stable/modules/generated/sklearn.neural_network.MLPRegressor.html'
+    else:
+        return "Выберите представленную в списке интересующую модель"
+
+@bot.message_handler(content_types=["text"])
+def cmd_models_info_reply(message):
+    bot.send_message(message.chat.id, 'Перейти по ссылке scikit-learn и узнать о модели ' + message.text.lower() +': '+
+                     cmd_models_info_link(
+                                                                                                  message))
 
 bot.infinity_polling()
