@@ -37,8 +37,9 @@ def cmd_models_info_link(message):
 
 @bot.message_handler(content_types=["text"])
 def cmd_models_info_reply(message):
+    markup = types.ReplyKeyboardRemove(selective=False)
     bot.send_message(message.chat.id, 'Перейти по ссылке scikit-learn и узнать о модели ' + message.text.lower() +': '+
                      cmd_models_info_link(
-                                                                                                  message))
+                                                                                                  message), reply_markup=markup)
 
 bot.infinity_polling()
