@@ -8,14 +8,21 @@ bot = telebot.TeleBot(token)
 
 @bot.message_handler(commands=['start'])
 def cmd_start(message):
-    return
+    pass
+
+
 @bot.message_handler(commands=['help'])
 def cmd_help(message):
-    return
+    bot.send_message(message.chat.id, 'Привет! Я помогу тебе разобраться в моей работе. У меня есть следующие команды: \n \n'
+                                      '/dataset_info - получить информацию о наборе данных \n'
+                                      '/models_info - получить описание моделей')
+
+
 @bot.message_handler(commands=['dataset_info'])
 def cmd_dataset_info(message):
     return
 
+  
 @bot.message_handler(commands=['models_info'])
 def cmd_models_info(message):
     user_markup = types.ReplyKeyboardMarkup()
@@ -25,6 +32,7 @@ def cmd_models_info(message):
     user_markup.row(lr_button, rf_button, mlp_button)
     bot.send_message(message.chat.id, "Выберите интересующую модель", reply_markup=user_markup)
 
+    
 def cmd_models_info_link(message):
     if message.text == "Линейная регрессия":
         return 'https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LinearRegression.html'
@@ -35,6 +43,7 @@ def cmd_models_info_link(message):
     else:
         return "Выберите представленную в списке интересующую модель"
 
+      
 @bot.message_handler(content_types=["text"])
 def cmd_models_info_reply(message):
     markup = types.ReplyKeyboardRemove(selective=False)
