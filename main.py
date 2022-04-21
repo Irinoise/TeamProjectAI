@@ -5,10 +5,18 @@ from telebot import types
 
 token = '5216695845:AAFwPhtMXamZYg-nF7HqPplgv4KhJvGeW6k'
 bot = telebot.TeleBot(token)
+models_dict = {
+    'Линейная регрессия': 'https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LinearRegression'
+                          '.html',
+    'Случайный лес': 'https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.RandomForestClassifier.html',
+    'Многослойный перцептрон': 'https://scikit-learn.org/stable/modules/generated/sklearn.neural_network.MLPRegressor'
+                               '.html'
+}
 
-@bot.message_handler(commands=['start'])
-def cmd_start(message):
-    pass
+# @bot.message_handler(commands=['start'])
+# def cmd_start(message):
+#     bot.send_message(message.chat.id, 'Hello')
+#     print(message)
 
 
 @bot.message_handler(commands=['help'])
@@ -34,21 +42,16 @@ def cmd_models_info(message):
 
     
 def cmd_models_info_link(message):
-    if message.text == "Линейная регрессия":
-        return 'https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LinearRegression.html'
-    elif message.text == "Случайный лес":
-        return 'https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.RandomForestClassifier.html'
-    elif message.text == "Многослойный перцептрон":
-         return 'https://scikit-learn.org/stable/modules/generated/sklearn.neural_network.MLPRegressor.html'
+    if message.text in models_dict:
+        return models_dict[message.text]
     else:
-        return "Выберите представленную в списке интересующую модель"
+        return "Выберите представленную в списке модель"
 
-      
 @bot.message_handler(content_types=["text"])
 def cmd_models_info_reply(message):
     markup = types.ReplyKeyboardRemove(selective=False)
-    bot.send_message(message.chat.id, 'Перейти по ссылке scikit-learn и узнать о модели ' + message.text.lower() +': '+
-                     cmd_models_info_link(
-                                                                                                  message), reply_markup=markup)
+    bot.send_message(message.chat.id, cmd_models_info_link(message), reply_markup=markup)
+    # bot.send_message(message.chat.id, 'Перейти по ссылке scikit-learn и узнать о модели ' + message.text.lower() +': '+
+    #                  cmd_models_info_link(message), reply_markup=markup)
 
 bot.infinity_polling()
