@@ -30,7 +30,7 @@ def cmd_help(message):
 def cmd_dataset_info(message):
     return
 
-  
+
 @bot.message_handler(commands=['models_info'])
 def cmd_models_info(message):
     user_markup = types.ReplyKeyboardMarkup()
@@ -40,18 +40,23 @@ def cmd_models_info(message):
     user_markup.row(lr_button, rf_button, mlp_button)
     bot.send_message(message.chat.id, "Выберите интересующую модель", reply_markup=user_markup)
 
-    
+
 def cmd_models_info_link(message):
     if message.text in models_dict:
-        return models_dict[message.text]
+        response = 'Перейти по ссылке scikit-learn и узнать о модели ' + message.text.lower() + ': ' + models_dict[
+            message.text]
+        return response
     else:
-        return "Выберите представленную в списке модель"
+        return False
+
 
 @bot.message_handler(content_types=["text"])
 def cmd_models_info_reply(message):
-    markup = types.ReplyKeyboardRemove(selective=False)
-    bot.send_message(message.chat.id, cmd_models_info_link(message), reply_markup=markup)
-    # bot.send_message(message.chat.id, 'Перейти по ссылке scikit-learn и узнать о модели ' + message.text.lower() +': '+
-    #                  cmd_models_info_link(message), reply_markup=markup)
+    remove_keyboard = types.ReplyKeyboardRemove(selective=False)
+    if cmd_models_info_link(message):
+        bot.send_message(message.chat.id, cmd_models_info_link(message), reply_markup=remove_keyboard)
+    else:
+        bot.send_message(message.chat.id, "Выберите представленную модель из списка.")
+
 
 bot.infinity_polling()
