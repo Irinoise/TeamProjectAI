@@ -8,7 +8,9 @@ bot = telebot.TeleBot(token)
 
 @bot.message_handler(commands=['start'])
 def cmd_start(message):
-    pass
+    bot.send_message(message.chat.id, f'Привет, {message.from_user.first_name}! Я - бот, предсказывающий доход '
+                                      f'фильма по его параметрам. '
+                                      f'Чтобы узнать, что я умею используй команду /help')
 
 
 @bot.message_handler(commands=['help'])
