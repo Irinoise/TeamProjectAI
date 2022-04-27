@@ -34,9 +34,9 @@ def cmd_dataset_info(message):
 @bot.message_handler(commands=['models_info'])
 def cmd_models_info(message):
     user_markup = types.ReplyKeyboardMarkup()
-    for button in models_dict:
-        user_markup.row(button)
-    bot.send_message(message.chat.id, "Выберите интересующую модель", reply_markup=user_markup)
+    buttons = [types.KeyboardButton(str(button_text)) for button_text in models_dict]
+    user_markup.add(*buttons, row_width=len(models_dict))
+    bot.send_message(message.chat.id, "Выберите интересующую модель.", reply_markup=user_markup)
 
 
 def cmd_models_info_link(message):
