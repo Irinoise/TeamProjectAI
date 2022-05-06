@@ -13,10 +13,12 @@ models_dict = {
                                '.html'
 }
 
-# @bot.message_handler(commands=['start'])
-# def cmd_start(message):
-#     bot.send_message(message.chat.id, 'Hello')
-#     print(message)
+
+@bot.message_handler(commands=['start'])
+def cmd_start(message):
+    bot.send_message(message.chat.id, f'Привет, {message.from_user.first_name}! Я - бот, предсказывающий доход '
+                                      f'фильма по его параметрам. '
+                                      f'Чтобы узнать, что я умею используй команду /help')
 
 
 @bot.message_handler(commands=['help'])
